@@ -25,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
                 int minutes = (int) progress/60;
                 int seconds = (int) progress - minutes * 60;
 
-                timerTextview.setText(Integer.toString(minutes) + ":" + Integer.toString(seconds));
+                String secondsString = Integer.toString(seconds);
+
+                if (secondsString == "0") {
+                    secondsString = "00";
+                }
+
+                timerTextview.setText(Integer.toString(minutes) + ":" + secondsString));
             }
 
             @Override
