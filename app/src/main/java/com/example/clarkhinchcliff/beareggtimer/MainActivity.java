@@ -1,19 +1,29 @@
 package com.example.clarkhinchcliff.beareggtimer;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.test.suitebuilder.TestMethod;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    SeekBar timerSeekbar;
+
+    public void toggleTimer(View view) {
+        new CountDownTimer( timerSeekbar.getProgress() * 1000, 1000) {
+
+        }.start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SeekBar timerSeekbar = (SeekBar)findViewById(R.id.timerSeekBar);
+        timerSeekbar = (SeekBar)findViewById(R.id.timerSeekBar);
         final TextView timerTextview = (TextView)findViewById(R.id.textView);
 
         timerSeekbar.setMax(600);
