@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Timer;
+
 public class MainActivity extends AppCompatActivity {
 
     SeekBar timerSeekbar;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (counterIsActive == false){
             counterIsActive = true;
             timerSeekbar.setEnabled(false);
-            toggleTimerButton.setText("Stop");
+            toggleTimerButton.setText("STOP");
 
             countDownTimer = new CountDownTimer(timerSeekbar.getProgress() * 1000 + 100, 1000) {
 
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
             timerTextview.setText("30");
             timerSeekbar.setProgress(30);
             countDownTimer.cancel();
+            toggleTimerButton.setText("START");
+            timerSeekbar.setEnabled(true);
+            counterIsActive = false;
         }
     }
 
