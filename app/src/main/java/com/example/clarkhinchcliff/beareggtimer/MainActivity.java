@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         String secondsString = Integer.toString(seconds);
 
-        if (secondsString == "0") {
-            secondsString = "00";
+        if(seconds <= 9){
+            secondsString = "0" + secondsString;
         }
 
-        timerTextview.setText(Integer.toString(minutes) + ":" + secondsString));
+        timerTextview.setText(Integer.toString(minutes) + ":" + secondsString);
     }
 
     public void toggleTimer(View view) {
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                timerTextview.setText("0:00");
                 Log.i("books", "cooks");
             }
         }.start();
