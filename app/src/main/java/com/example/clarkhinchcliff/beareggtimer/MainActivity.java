@@ -4,6 +4,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.test.suitebuilder.TestMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -11,10 +12,33 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     SeekBar timerSeekbar;
+    TextView timerTextview;
+
+    public void updateTimer(int secondsLeft){
+        int minutes = (int) secondsLeft/60;
+        int seconds = (int) secondsLeft - minutes * 60;
+
+        String secondsString = Integer.toString(seconds);
+
+        if (secondsString == "0") {
+            secondsString = "00";
+        }
+
+        timerTextview.setText(Integer.toString(minutes) + ":" + secondsString));
+    }
 
     public void toggleTimer(View view) {
-        new CountDownTimer( timerSeekbar.getProgress() * 1000, 1000) {
+        new CountDownTimer(timerSeekbar.getProgress() * 1000, 1000) {
 
+            @Override
+            public void onTick(long milliSecLeft) {
+                updateTimer((int)milliSecLeft / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                Log.i("books", "cooks");
+            }
         }.start();
     }
 
@@ -24,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         timerSeekbar = (SeekBar)findViewById(R.id.timerSeekBar);
-        final TextView timerTextview = (TextView)findViewById(R.id.textView);
+        timerTextview = (TextView)findViewById(R.id.textView);
 
         timerSeekbar.setMax(600);
         timerSeekbar.setProgress(30);
@@ -32,16 +56,7 @@ public class MainActivity extends AppCompatActivity {
         timerSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int minutes = (int) progress/60;
-                int seconds = (int) progress - minutes * 60;
-
-                String secondsString = Integer.toString(seconds);
-
-                if (secondsString == "0") {
-                    secondsString = "00";
-                }
-
-                timerTextview.setText(Integer.toString(minutes) + ":" + secondsString));
+                updateTimer(progress);
             }
 
             @Override
