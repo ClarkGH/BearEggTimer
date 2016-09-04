@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.test.suitebuilder.TestMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -14,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     SeekBar timerSeekbar;
     TextView timerTextview;
+    Boolean counterIsActive = false;
+    Button toggleTimerButton;
+    CountDownTimer countDownTimer;
 
     public void updateTimer(int secondsLeft){
         int minutes = (int) secondsLeft/60;
@@ -29,19 +33,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleTimer(View view) {
-        new CountDownTimer(timerSeekbar.getProgress() * 1000 + 100, 1000) {
 
-            @Override
-            public void onTick(long milliSecLeft) {
-                updateTimer((int)milliSecLeft / 1000);
-            }
+        if (counterIsActive == false){
+            counterIsActive = true;
+            timerSeekbar.setEnabled(false);
+            toggleTimerButton.setText("Stop");
 
-            @Override
-            public void onFinish() {
-                timerTextview.setText("0:00");
-                MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.Bear);
-            }
-        }.start();
+            countDownTimer = new CountDownTimer(timerSeekbar.getProgress() * 1000 + 100, 1000) {
+
+                @Override
+                public void onTick(long milliSecLeft) {
+                    updateTimer((int)milliSecLeft / 1000);
+                }
+
+                @Override
+                public void onFinish() {
+                    timerTextview.setText("0:00");
+                    MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.Bear);
+                }
+            }.start();
+        } else {
+
+            timerTextview.setText("30");
+            timerSeekbar.setProgress(30);
+            countDownTimer.cancel();
+        }
     }
 
     @Override
@@ -51,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         timerSeekbar = (SeekBar)findViewById(R.id.timerSeekBar);
         timerTextview = (TextView)findViewById(R.id.textView);
+        toggleTimerButton = (Button)findViewById(R.id.toggleTimerButton);
 
         timerSeekbar.setMax(600);
         timerSeekbar.setProgress(30);
