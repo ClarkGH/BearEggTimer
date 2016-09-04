@@ -1,5 +1,6 @@
 package com.example.clarkhinchcliff.beareggtimer;
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleTimer(View view) {
-        new CountDownTimer(timerSeekbar.getProgress() * 1000, 1000) {
+        new CountDownTimer(timerSeekbar.getProgress() * 1000 + 100, 1000) {
 
             @Override
             public void onTick(long milliSecLeft) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerTextview.setText("0:00");
-                Log.i("books", "cooks");
+                MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.Bear);
             }
         }.start();
     }
